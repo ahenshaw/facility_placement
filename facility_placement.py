@@ -6,7 +6,7 @@ import neighboring
 neighbors, country_codes = neighboring.get_bordering()
 
 model = gp.Model()
-model.setParam('OutputFlag', 0)
+model.setParam("OutputFlag", 0)
 
 # create all of the model variables from the country codes
 vars = dict()
@@ -17,10 +17,11 @@ for code in country_codes:
 
 model.setObjective(objective)
 
-# for each set of neighboring countries, create a constraint that looks like 
+# for each set of neighboring countries, create a constraint
+# that looks like
 #    x_BI + x_CD + x_RW + x_TZ >= 1
-# meaning that there needs to be a facility placed into at least one of 
-# the countries in that group
+# meaning that there needs to be a facility placed into at
+# least one of the countries in that group
 for country, neighboring in neighbors.items():
     expr = gp.LinExpr()
     expr += vars[country]
@@ -28,7 +29,7 @@ for country, neighboring in neighbors.items():
         expr += vars[neighbor]
     model.addLConstr(expr, GRB.GREATER_EQUAL, 1)
 
-model.write('output/facility_placement.lp')
+model.write("output/facility_placement.lp")
 model.optimize()
 
 if model.status == GRB.OPTIMAL:
@@ -36,4 +37,4 @@ if model.status == GRB.OPTIMAL:
     print("\nFacilities should be placed at:")
     for code, v in sorted(vars.items()):
         if v.X > 0.5:
-            print('   ', country_codes[code])
+            print("   ", country_codes[code])
