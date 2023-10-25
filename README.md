@@ -1,4 +1,4 @@
-# facility_placement
+# Facility Placement Problem
 Demonstration of Linear Programming to determine placement of facilities.
 
 The scenario is that the Red Cross wants to place supply depots on the 
